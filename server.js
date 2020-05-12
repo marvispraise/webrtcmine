@@ -17,11 +17,11 @@ io.on('connection', function (socket) {
         } else
             this.emit('SessionActive');
         clients++;
-    })
+    });
     socket.on('Offer', SendOffer);
     socket.on('Answer', SendAnswer);
     socket.on('disconnect', Disconnect);
-})
+});
 
 function Disconnect() {
     if (clients > 0)

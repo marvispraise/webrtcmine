@@ -18,11 +18,11 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             let peer = new Peer({ initiator: (type == 'init') ? true : false, stream: stream, trickle: false });
             peer.on('stream', function (stream) {
                 CreateVideo(stream);
-            })
+            });
             peer.on('close', function () {
                 document.getElementById("peerVideo").remove();
                 peer.destroy();
-            })
+            });
             return peer;
         }
         
@@ -35,7 +35,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
                 if (!client.gotAnswer) {
                     socket.emit('Offer', data);
                 }
-            })
+            });
             client.peer = peer;
             
         }
