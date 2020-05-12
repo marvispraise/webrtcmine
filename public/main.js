@@ -45,7 +45,7 @@ navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             let peer = InitPeer('notInit');
             peer.on('signal', (data) => {
                 socket.emit('Answer', data);
-            })
+            });
             peer.signal(offer);
         }
 
