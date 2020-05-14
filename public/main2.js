@@ -1,12 +1,12 @@
 navigator.getUserMedia = navigator.getUserMedia ||
-                         navigator.webkitGetUserMedia ||
-                         navigator.mozGetUserMedia;
-window.RTCPeerConnection = window.RTCPeerConnection ||
-                           window.webkitRTCPeerConnection;
+                        navigator.webkitGetUserMedia ||
+                        navigator.mozGetUserMedia;
+    window.RTCPeerConnection = window.RTCPeerConnection ||
+                                window.webkitRTCPeerConnection;
 
 var yourConnection, theirConnection;
 
-navigator.getUserMedia({ video: true, audio: false }, function(stream) {
+navigator.getUserMedia({ video: true, audio: true }, function(stream) {
     yourVideo.src = window.URL.createObjectURL(stream);
 
     var config = { "iceServers": [{ "urls": "stun:stun.1.google.com:19302"}] };
