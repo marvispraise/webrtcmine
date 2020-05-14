@@ -18,22 +18,22 @@ io.on('connection', function (socket) {
             this.emit('SessionActive');
         clients++;
     });
-    // socket.on('Offer', SendOffer);
-    // socket.on('Answer', SendAnswer);
-    // socket.on('disconnect', Disconnect);
+    socket.on('Offer', SendOffer);
+    socket.on('Answer', SendAnswer);
+    socket.on('disconnect', Disconnect);
 });
 
-// function Disconnect() {
-//     if (clients > 0)
-//         clients--;
-// } 
+function Disconnect() {
+    if (clients > 0)
+        clients--;
+} 
 
-// function SendOffer(offer) {
-//     this.broadcast.emit("BackOffer", offer);
-// }
+function SendOffer(offer) {
+    this.broadcast.emit("BackOffer", offer);
+}
 
-// function SendAnswer(data) {
-//     this.broadcast.emit("BackAnswer", data);
-// }
+function SendAnswer(data) {
+    this.broadcast.emit("BackAnswer", data);
+}
 
 http.listen(port, () => console.log(`Active on ${port} port`));
