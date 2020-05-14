@@ -1,20 +1,46 @@
-var pc1 = new RTCPeerConnection(), pc2 = new RTCPeerConnection();
+navigator.getUserMedia = navigator.getUserMedia ||
+                         navigator.webkitGetUserMedia ||
+                         navigator.mozGetUserMedia;
+window.RTCPeerConnection = window.RTCPeerConnection ||
+                           window.webkitRTCPeerConnection;
 
-navigator.mediaDevices.getUserMedia({video: true, audio: true})
-  .then(stream => pc1.addStream(video1.srcObject = stream))
-  .catch(log);
+var yourConnection, theirConnection;
 
-var add = (pc, can) => pc.addIceCandidate(can).catch(log);
-pc1.onicecandidate = e => add(pc2, e.candidate);
-pc2.onicecandidate = e => add(pc1, e.candidate);
+navigator.getUserMedia({ video: true, audio: false }, function(stream) {
+    yourVideo.src = window.URL.createObjectURL(stream);
 
-pc2.ontrack = e => video2.srcObject = e.streams[0];
-pc1.oniceconnectionstatechange = e => log(pc1.iceConnectionState);
-pc1.onnegotiationneeded = e =>
-  pc1.createOffer().then(d => pc1.setLocalDescription(d))
-  .then(() => pc2.setRemoteDescription(pc1.localDescription))
-  .then(() => pc2.createAnswer()).then(d => pc2.setLocalDescription(d))
-  .then(() => pc1.setRemoteDescription(pc2.localDescription))
-  .catch(log);
+    var config = { "iceServers": [{ "urls": "stun:stun.1.google.com:19302"}] };
+    yourConnection = new RTCPeerConnection(config);
+    theirConnection = new RTCPeerConnection(config);
 
-var log = msg => console.log(msg);
+    yourConnection.addStream(stream);
+
+    theirConnection.onaddstream = function (event) {
+        theirVideo.src = window.URL.createObjectURL(event.stream);
+    };
+
+    yourConnection.onicecandidate = function (e) {
+        if (e.candidate) {
+            theirConnection.addIceCandidate(new RTCIceCandidate(e.candidate),
+                                            success, failure);
+         }
+     };
+     theirConnection.onicecandidate = function (e) {
+         if (e.candidate) {
+             yourConnection.addIceCandidate(new RTCIceCandidate(e.candidate),
+                                            success, failure);
+         }
+     };
+
+     yourConnection.createOffer(function (offer) {
+         yourConnection.setLocalDescription(offer, success, failure);
+         theirConnection.setRemoteDescription(offer, success, failure);
+         theirConnection.createAnswer(function (offer) {
+             theirConnection.setLocalDescription(offer, success, failure);
+             yourConnection.setRemoteDescription(offer, success, failure);
+         }, failure);
+     }, failure);
+}, failure);
+
+function success() {}
+function failure(e) { console.log(e); }
