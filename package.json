@@ -5,7 +5,8 @@
   "main": "main2.js",
   "scripts": {
     "start": "node server.js",
-    "watch": "npx watchify ./public/main2.js -o ./public/bundle.js"
+    "watch": "npx watchify ./public/main2.js"
+
   },
   "author": "Marvelous Praise",
   "license": "ISC",
