@@ -53,8 +53,8 @@ var console = {
     }
 };
 
-function success() {};
+function success() {}
 
 function failure(e) {
     console.log(e);
-};
+}
