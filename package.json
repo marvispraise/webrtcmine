@@ -2,10 +2,10 @@
   "name": "webrtc-learn",
   "version": "1.0.0",
   "description": "Trying out peer to peer connection",
-  "main": "main.js",
+  "main": "main2.js",
   "scripts": {
     "start": "node server.js",
-    "watch": "npx watchify ./public/main.js -o ./public/bundle.js"
+    "watch": "npx watchify ./public/main2.js -o ./public/bundle.js"
 
   },
   "author": "Marvelous Praise",
