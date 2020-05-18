@@ -4,8 +4,7 @@ const video = document.querySelector('video');
 let client = {};
 
 //get stream
-navigator.mediaDevices
-	.getUserMedia({ video: true, audio: true })
+navigator.mediaDevices.getUserMedia({ video: true, audio: true })
 	.then((stream) => {
 		socket.emit('NewClient');
 		video.srcObject = stream;
@@ -13,7 +12,7 @@ navigator.mediaDevices
 
 		//used to initialize a peer
 		function InitPeer (type) {
-			let peer = new Peer({ initiator: type == 'init' ? true : false, stream: stream, trickle: false });
+			let peer = new Peer({ initiator: type === 'init', stream: stream, trickle: false });
 			peer.on('stream', function (stream) {
 				CreateVideo(stream);
 			});
@@ -67,6 +66,6 @@ navigator.mediaDevices
 		socket.on('BackOffer', FrontAnswer);
 		socket.on('BackAnswer', SignalAnswer);
 		socket.on('SessionActive', SessionActive);
-		socket.on('CreatePeer', Makepeer);
+		socket.on('CreatePeer', MakePeer);
 	})
 	.catch((err) => document.write(err));
